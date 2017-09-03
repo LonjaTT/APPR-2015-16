@@ -16,7 +16,7 @@ istoleto <- c("Slovenija", "Italija", "Norveška", "Madžarska")
 stevilo2013 <- matrix(c(3558551/100000, 38190401/100000, 10944898/100000, 9133600/100000),ncol=1,byrow=TRUE)
 tabelca2 <- data.frame(stevilo2013, row.names = istoleto)
 graf3 <- ggplot(tabelca2, aes(x = istoleto, y = stevilo2013)) + geom_point() +ggtitle("Obiskovalci v letu 2013") +xlab("Države") + ylab("Število")
-plot(graf3)
+#plot(graf3)
 
 obcasne.tidy <- data.frame(leto = rownames(OK.obcasne),
                                OK.obcasne) %>%
