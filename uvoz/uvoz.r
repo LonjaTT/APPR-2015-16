@@ -28,17 +28,28 @@ uvozi.evropa <- function(){return(read.csv2("podatki/egm-skupaj.csv", dec = ",",
 
 #Zapišemo v tabelco:
   
-stevilomuzejev <- uvozi.stevilomuzejev()
-OK.vrstice1 <- apply(stevilomuzejev, 1, function(x){!any(is.na(x))})
-Ok.stevilomuzejev <- stevilomuzejev[OK.vrstice1, ]
+stevilomuzejev2 <- uvozi.stevilomuzejev()
+OK.vrstice1 <- apply(stevilomuzejev2, 1, function(x){!any(is.na(x))})
+Ok.stevilomuzejev <- stevilomuzejev2[OK.vrstice1, ]
+
+
+
 
 obcasnerazstave <- uvozi.obcasne()
 OK.vrstice2 <- apply(obcasnerazstave, 1, function(x){!any(is.na(x))})
 OK.obcasne <- obcasnerazstave[OK.vrstice2, ]
 
+obcasne.tidy <- data.frame(leto = rownames(OK.obcasne),
+                           OK.obcasne) %>%
+  melt(variable.name = "regija", value.name = "stevilo")
+obcasne.tidy2 <- arrange(obcasne.tidy, leto)
+
 obiskovalci <-uvozi.obiskovalce()
 OK.vrstice3 <- apply(obiskovalci, 1, function(x){!any(is.na(x))})
 OK.obiskovalci <- obiskovalci[OK.vrstice3, ]
+
+obiskovalci_tidy1 <- data.frame(Leto = rownames(OK.obiskovalci), OK.obiskovalci) %>% melt(variable.name = "Regija", value.name = "Stevilo")
+obiskovalci_tidy2 <- arrange(obiskovalci_tidy1, Leto)
 
 muzeji1<-uvozi.muzeje()
 OK.vrstice4 <- apply(muzeji1, 1, function(x){!any(is.na(x))})
@@ -47,7 +58,8 @@ ok.muzeji <- muzeji1[OK.vrstice4, ]
 
 
 stevilomuzejev <- read.csv2("podatki/stmuzejevnapreb.csv", dec =".", header = FALSE, na.strings = "...", col.names = regije)%>%melt(id.vars = "Leto", variable.name = "Regija", value.name = "Stevilo.muzejev")
-
+stmuzejev <- arrange(stevilomuzejev, Leto)
+stmuzejev2 <- drop_na(stmuzejev)
 #obcasnerazstave <- read.csv2("podatki/obcasnerazsprocent.csv", dec = ".", header = FALSE, na.strings = "...", col.names = regije)%>%melt(id.vars = "Leto", variable.name = "Regija", value.name = "Obcasne.razstave")
 
 obiskmuzejev <- read.csv2("podatki/stobiskovalcev.csv", dec = ".", header = FALSE, na.strings = "...", col.names = regije)%>%melt(id.vars = "Leto", variable.name = "Regija", value.name = "Obisk.muzejev")
@@ -55,7 +67,7 @@ obiskmuzejev <- read.csv2("podatki/stobiskovalcev.csv", dec = ".", header = FALS
 
 skupaj <- stevilomuzejev %>% full_join(obiskmuzejev) 
 
-imena2 <- c("Država", "Leto", "Muzeji na 10.000 prebivalcev")
+imena2 <- c("Država", "Leto", "Muzeji na 100.000 prebivalcev")
 drzave <- c("Avstrija", "Belorusija", "Belgija", "Bulgarija", "Hrvaška", "Češka", "Danska", "Estonija", "Finska", "Francija", "Nemčija", "Grčija", "Madžarska", "Irska", "Italija", "Latvija", "Litva", "Luksemburg", "Makedonija", "Norveška", "Poljska", "Portugalska", "Romunija", "Slovaška", "Slovenija", "Španija", "Švedska", "Švica", "Nizozemska", "Združeno Kraljestvo")
 imena3 <- c("Država", "Leto", "Obisk.muzejev", "A", "B", "C", "D", "E")
 #Uvozimo evropsko število muzejev na prebivalca

@@ -19,44 +19,46 @@ source("lib/libraries.r", encoding = "UTF-8")
 
 # Izbira teme
 
-Za predstavitev podatkov pri predmetu Analiza podatkov s programom R, sem si izbrala dejavnost muzejev v različnih statističnih regijah v Sloveniji. Za to temo sem se odločila, ker zelo rada obiskujem muzeje. Predvsem sem se osredotočila na število muzejev v različnih regijah in število obiskovalcev, ki jih le te dosežejo.   
+Za predstavitev podatkov pri predmetu Analiza podatkov s programom R, sem si izbrala dejavnost muzejev v različnih statističnih regijah v Sloveniji. Za to temo sem se odločila, ker zelo rada obiskujem muzeje. Predvsem sem se osredotočila na število muzejev v različnih regijah in število obiskovalcev, ki jih le te dosežejo. Pomembno je, da so enote opazovanja: muzeji(muzeji umetnosti, naktia, pohištva, kostumov, keramike, srebrnine, naravoslovni, znanstveni, zgodovinski, vojni, spominske hiše, muzeji na prostem), muzejske zbirke, posebni muzeji za likovno dediščino in likovna razstavišča. Torej vsak kraj, ki gosti neko razstavo, četudi samo za krajši čas.
 
 ***
 
 # Obdelava, uvoz in čiščenje podatkov
 Uvozila sem podatke za tri tabele, ki so povezane z obiskom muzejev v Sloveniji. Te podatke sem našla na spletni strani Statističnega urada Republike Slovenije. Podatke sem uredila v razpredelnice in odstranila vrstice z manjkajočimi podatki. Vrstice in stolpce sem tudi na novo poimenovala. Tako sem dobila tri pregledne tabele, ki so v nekoliko strnjeni obliki prikazane spodaj.   
-```{r uvoz, echo=FALSE, message=FALSE, warning=FALSE}
-source("uvoz/uvoz.r", encoding = "UTF-8")
-```
 
 
-## Število muzejev na 10000 prebivalcev v Sloveniji
+
+## Število muzejev na 10.000 prebivalcev v Sloveniji
 Prva tabela prikazuje število muzejev na 10000 prebivalcev. Te podatki so se mi zdeli zanimivi, ker prikazujejo kako pogosti so muzeji v Sloveniji, glede na to, da je skoraj v vsaki regiji skoraj en muzej na prebivalca. 
-Iz tabele lahko razberemo, da je število muzejev (tukaj so štete tudi galerije in razstavišča) z leti nekoliko padalo. To je lahko tudi posledica raznih združevanj med manjšimi muzeji. Lahko pa je tudi prišlo do povečanja števila prebivalcev. 
+Iz tabele lahko razberemo, da je število muzejev (tukaj so štete tudi galerije in razstavišča) z leti nekoliko padalo. To je lahko posledica tega, da so nekatera prizorišča gostila manj razstav. Zanimivo se mi je zdelo, da za leti 2011 in 2012 ni podatkov za Notranjsko-kraško regijo. Pravega razloga za to sicer nisem našla, saj je bil v istem času na tem področju zabeležen visok procent občasnih razstav. Mogoče bi lahko sklepala, da je bil kakšen od muzejev takrat zaprt, vendar tega nisem zasledila.  
 ```{r razpredelnica, fig.align='left', echo=FALSE,message=FALSE, warning=FALSE}
-kable(head(Ok.stevilomuzejev), caption = 'Število muzejev na 10000 prebivalcev')
+source("uvoz/uvoz.r", encoding = "UTF-8")
+kable(head(stmuzejev2), caption = 'Število muzejev na 10.000 prebivalcev')
 
 ```
 
 ## Procent občasnih razstav
-V drugi tabeli je predstavljen procent občasnih rastav. Občasne razstave so pomembno merilo, saj nakazujejo, da se muzeji trudijo ostati v toku s časom in predstavljajo novosti. V celotni tabeli so zbrani podatki od leta 2007 do leta 2014. Kljub temu, da so prikazani samo podatki do leta 2012, je razvidno, da se je med krizo število občasnih razstav zmanjšalo.
-V skoraj vseh regijah je procent občasnih razstav ves čas večji od 50, kar pomeni, da občasne razstave nasploh prevladujejo v Sloveniji. RPo mojem mnenju je eden od temeljnih razlogov za to želja po privabljanju obiskovalcev, ki radi pridejo zaradi novosti. S strateško porazdelitvijo občasnih razstav pa se lahko privablja obiskovalce na manj obiskane (ali manj poznane) dele države, kar prispeva k razvoju regije.
+V drugi tabeli je predstavljen procent občasnih rastav. Občasne razstave so pomembno merilo, saj nakazujejo, da se muzeji trudijo ostati v toku s časom in predstavljajo novosti. V celotni tabeli so zbrani podatki od leta 2007 do leta 2014.
+V skoraj vseh regijah je procent občasnih razstav ves čas večji od 50, kar pomeni, da občasne razstave nasploh prevladujejo v Sloveniji. Najbolj izstopata leti 2011 in 2012 pri Notranjsko-kraški regiji, kjer je ta procent kar 100. Ne vem, če lahko ta podatek zares upoštevamo, ker v prejšnji tabelici vidimo, da za tisti dve leti ni pravih podatkov o številu muzejev. Nisem tudi zaznala, da bi prišlo do kakšnih sprememb pri odpiranju/zapiranju muzejev ali drugih razstavišč. Odkrila sem, da je bilo nekaj občasnih razstav, vendar so se povečevale tudi stalne zbirke.
 ```{r razpredelnica2, fig.align='left', echo=FALSE, message=FALSE, warning=FALSE}
-kable(head(OK.obcasne), caption = 'Procent občasnih razstav')
+source("uvoz/uvoz.r", encoding = "UTF-8")
+kable(head(obcasne.tidy2), caption = 'Procent občasnih razstav')
 
 ```
 
 ## Povprečno število obiskovalcev
-V zadnji tabeli pa je celotno povrečno število obiskovalcev v času od leta 2007 do leta 2014. Število obiskovalcev je v teh letih večinoma naraščalo, vsaka od regij pa je v teh letih utrpela tudi upad obiskovalcev. Zanimivo je, da je bilo v letih 2008 do 2014 ves čas v Savinjski regiji več obiskovalcev kot v Osrednjeslovenski. Pomembnejši kraji, ki sodijo v Savinjsko regijo sodijo Celje, Laško, Rogaška Slatina, Velenje in Logarska dolina. Te kraji so zelo privlačni za obiskovalce tako zaradi naravnih kot tudi kulturnih znamenitosti (npr. muzej novejše zgodovine v Celju). 
+V zadnji tabeli pa je celotno povrečno število obiskovalcev v času od leta 2007 do leta 2014. Manjkajo sicer podatki za leti 2011 in 2012. Predvidevam, da v tistih letih statistični urad ni izvajal teh meritev oziroma jih je izvajal bolj površno. Število obiskovalcev je v teh letih večinoma naraščalo, vsaka od regij pa je v teh letih utrpela tudi upad obiskovalcev.Izpostavila bi tudi veliko število obiskovalcev v Notranjsko-kraški regiji v letu 2013. Razlog za to je verjetno, da je v tistem času prišlo do izleganja jajčec človeške ribice v Postonjiski jami. Je pa tudi tisto leto svoja vrata odprl Ekološki muzej presihajočih jezer v Pivki.
+V Savinjski regiji pa je do nekoliko nižjega števila obiskovalcev prišlo, ker je najpomembnejši muzej na tem področju, Muzej novejše zgodovine Celje, ki zajema kar 29 občin (vključno z Velenjem in Trbovljami) prešel na nekoliko drugačen način štetja obiskovalcev.  
 ```{r razpredelnica3, fig.align='left', echo=FALSE, message=FALSE, warning=FALSE}
-
-kable(head(OK.obiskovalci), caption = 'Povprečno število obiskovalcev')
+source("uvoz/uvoz.r", encoding = "UTF-8")
+kable(head(obiskovalci_tidy2), caption = 'Povprečno število obiskovalcev')
 ```
 
+
 ## Samo za primerjavo
-Za primerjavo pa sem se odločila pogledati tudi podatke nekaterih drugih evropskih držav, ki sem jih našla na spletni strani egm.com Tu sem imela več težav z manjkajočimi podatki še posebaj pri tabeli 4. V tej tabeli je prikazano število muzejev za nekatere evropske države. V poročilu je prikazanih nekaj prvih in lahko vidimo, da z velikostjo države narašča tudi število muzejev in število obiskovalcev (kar je vidno v drugi tabeli).  
+Za primerjavo pa sem se odločila pogledati tudi podatke nekaterih drugih evropskih držav, ki sem jih našla na spletni strani egm.com Tu sem imela več težav z manjkajočimi podatki še posebaj pri tabeli glede števila muzejev na 100.000 prebivalcev.     
 ```{r razpredelnice1, fig.align='left', echo=FALSE,message=FALSE, warning=FALSE}
-kable(head(ok.egmnapreb3), caption = 'Število muzejev na 10000 prebivalcev v ostalih evropskih državah')
+kable(head(ok.egmnapreb3), caption = 'Število muzejev na 100.000 prebivalcev v ostalih evropskih državah')
 ```
 ```{r razpredelnice2, fig.align='left', echo=FALSE, message=FALSE, warning=FALSE}
 kable(head(ok.egmskupaj2), caption = 'Število skupnih obiskov muzejev v različnih evropskih državah')
@@ -78,64 +80,26 @@ source("vizualizacija/vizualizacija.r", encoding = "UTF-8")
 print(zem)
 
 ```
-
-
+  
 
 ##Grafi
 Narisala sem tudi graf na katerem je predstavljena sprememba povprečnega števila obiskovalcev po letih in regijah. Z grafa je razvidno, da je bila daleč največja sprememba obiska v Notranjsko kraški regiji.Leta 2014 se je število obiskovalcev se zmanjšalo v Notranjsko kraški regiji (največji padec), Osrednjeslovenski regiji, Obalnokraški regiji in na Goriškem (najmanj). V drugih regijah je število obiskovalcev večinoma konstantno ali pa je naraslo (večji vzpon je bil na Gorenjskem).
 
-```{r analiza, echo=FALSE, fig.align='center',  fig.cap='Obiskovalci po regijah', message=FALSE, warning=FALSE}
+```{r analiza, echo=FALSE, fig.align='center',  fig.cap='Graf', message=FALSE, warning=FALSE}
 source("analiza/analiza.r", encoding = "UTF-8")
 plot(graf)
 
 ```
-```{r analiza2, echo=FALSE, fig.align='center', fig.cap= 'Procent občasnih razstav', message=FALSE, warning=FALSE}
+Drugi graf predstavlja procent občasnih razstav v različnih slovenskih regijah. V vseh so rezultati večinoma na 40%. Največje odstopanje pa je v podatkih za Noranjsko-kraško regijo. In padec v Osrednjeslovenski regiji leta 2013.
+```{r graf2, echo=FALSE, fig.align='center',  fig.cap='Graf', message=FALSE, warning=FALSE}
 source("analiza/analiza.r", encoding = "UTF-8")
 plot(graf2)
 ```
-```{r analiza3, echo=FALSE, fig.align='center', fig.cap='Število obiskovalcev v letu 2013', message=FALSE, warning=FALSE}
+V zadnjem grafu je predstavljeno število obiskovalcev (v 100.000) v nekaterih evropskih državah v letu 2013. Rezultati v grafu so dokaj predvidljivi, saj je pričakovano, da bo imela Italija največ obiskovalcev zaradi svoje znamenite in zgodovinsko pomembne kulturne dediščine. Mogoče je nekoliko presenetljivo, da ima Norveška tako velik obisk, vendar je potrebno upoštevati, da je veliko velika država. Medtem, ko pri Italiji lahko pričakujemo, da je večina obiskovalcev turistov iz celega sveta, je verjetno na Norveškem glavnina obiskovalcev domačinov.
+```{r graf3, echo=FALSE, fig.align='center',  fig.cap='Graf', message=FALSE, warning=FALSE}
 source("analiza/analiza.r", encoding = "UTF-8")
 plot(graf3)
-
 ```
 
 
-
-Slika \ref{fig:analiza} prikazuje spremembo povprečnega števila obiskovalcev po regijah.
-Slika \ref{fig:analiza2} prikazuje procent občasnih razstav po regijah. S svetlo modro barvo je prikazana Osrednjeslovenska regija, kamor spada tudi Ljubljana. Ravno v tej regiji je bil leta 2013 najmanjši procent občasnih razstav. Delno lahko tudi zato, ker je v Ljubljani več muzejev in galerij s stalnimi zbirkami. V letu 2011 in 2012 pa so bile vse razstave v Notranjsko-kraški regiji občasne. Sklepamo lahko, da manjše regije in občine nimajo primerne infrastrukture oziroma imajo premalo sredstev, da bi lahko gostile več stalnih razstav. Občasne pa so lahko s tega vidika nekoliko preprostejše.
-Spet sem samo za primerjavo vzela še nekaj evropskih podatkov.Zaradi mešanih podatkov sem za konec izlušila države, ki so imele podano skupno število obiskovalcev za leto 2013, kar prikazujejo točke v grafu \ref{fig:analiza3}. Vidimo lahko, da je imela Italija največ obiskovalcev muzejev, kar je pričakovano. Razlog za visok obisk je priljubljenost pri turistih in veliko število znanih muzejev. 
-
-***
-#Napredna analiza podatkov
-Za konec me je zanimalo, če sta podatka o številu muzejev in številom obiskovalcev med seboj povezana. Predvidevala sem, da večje število muzejev pomeni tudi več obiskovalcev. Odločila sem se posvetiti predvsem podatkom za Osrednjeslovensko regijo, ker je ta najbolj številčna v primeru obiskovalcev. Podatki so obsegali čas od leta 2007 do leta 2014. Pregledala sem različne korelacije med tema dvema podatkoma. Med drugim sem s pomočjo QQ-Plot preverila tudi ali sta podatka slučajno normalno porazdeljena.
-Najprej sem pogledala korelacijski koeficient med obema vrednostima:
-```{r korealcijski, echo=FALSE, message=FALSE, warning=FALSE}
-source("analiza/analiza.r", encoding = "UTF-8")
-print(cor(delnidf$skupaj.Stevilo.muzejev, delnidf$skupaj.Obisk.muzejev))
-
-```
-Korelacijski koeficient nakazuje šibko do zmerno pozitivno korelacijo, kar pomeni, da v primeru, da se ena od teh spremenljivk poveča, se bo druga tudi. Ta rezultat potrjuje mojo hipotezo.
-
-S Shapiro-Wilk testom sem preverila, če podatki slučajno izhajajo iz normalne porazdelitve. Predvidevla sem, da ne. Prva vrednost predstavlja p-value za število muzejev v Osrednjeslovenski regiji; druga pa p-value za obisk muzejev.
-```{r shapiro, echo=FALSE, message=FALSE, warning=FALSE}
-source("analiza/analiza.r", encoding = "UTF-8")
-print(shapiro.test(delnidf$skupaj.Stevilo.muzejev)$p.value)
-print(shapiro.test(delnidf$skupaj.Obisk.muzejev)$p.value)
-
-```
-Kot sem predvidevala, so podatki daleč od normalne porazdelitve, saj sta obe p-vrednosti zelo veliki. V primeru, da bi podatki izhajali iz normalne porazdelitve pa bi morali biti nižji od 0.05. 
-
-Nazadnje sem isto preverila še s pomočjo QQ-grafov. 
-```{r qq, echo=FALSE, fig.align='center', message=FALSE, warning=FALSE}
-source("analiza/analiza.r", encoding = "UTF-8")
-qqnorm(skupaj$Stevilo.muzejev[skupaj$Regija == "Osrednjeslovenska"], main = "Število muzejev v Osrednjeslovenski regiji")
-qqline(skupaj$Stevilo.muzejev[skupaj$Regija == "Osrednjeslovenska"])
-qqnorm(skupaj$Obisk.muzejev[skupaj$Regija == "Osrednjeslovenska"], main ="Obisk muzejev v osrednjeslovenski regiji")
-qqline(skupaj$Obisk.muzejev[skupaj$Regija == "Osrednjeslovenska"])
-```
-Nobeden od posameznih podatkov ne izgleda, kot da bi izhajal iz normalne porazdelitve. Odmiki od qqline črte so kar veliki. Razlog za to je lahko seveda tudi dokaj majhno število podatkov. Če bi imela večje število podatkov, bi verjetno lahko prišla do več zaključkov. 
-
-***
-
-#Zaključek in ideje za prihodnost
-Če bi se danes šeenkrat lotila tega projekta bi si verjetno izbrala drugačne podatke. Raje bi se odločila za primerjavo števila turistov (tujih in domačih) in števila obiskov muzejev (javnih in zasebnih). Verjetno bi tako prišla do bolj natančnih in pronicljivejši zaključkov. Imela bi tudi več podatkov in predvidevam, da bi bili te medseboj bolj povezani. Predvsem bi bilo zanimivo videti kdo predstavlja večji delež obiskovalcev: tuji ali domači turisti in katere regije so najbolj pridobile zaradi večjega števila turistov. Sklepam lahko, da se je z večjim številom tujih obiskovalcev povačalo tudi število obiskovalcev v muzejih. 
+ 
